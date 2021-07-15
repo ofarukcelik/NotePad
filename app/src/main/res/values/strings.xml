@@ -8,4 +8,5 @@
     <string name="capture_camera">Kamerayı Aç</string>
     <string name="note_title">Not Başlığı</string>
     <string name="note_description">Not Açıklaması</string>
+    <string name="empty_value_error">Lütfen Gerekli Alanları Doldurunuz!</string>
 </resources>

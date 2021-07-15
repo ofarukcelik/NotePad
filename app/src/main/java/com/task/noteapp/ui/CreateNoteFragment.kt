@@ -14,15 +14,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
+import com.task.noteapp.BaseFragment
+import com.task.noteapp.R
 import com.task.noteapp.databinding.FragmentCreateNotesBinding
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
-class CreateNoteFragment : Fragment() {
+class CreateNoteFragment : BaseFragment() {
   private val PICK_IMAGES_CODE = 0
   private val PERMISSION_CODE = 1000
   private val IMAGE_CAPTURE_CODE = 1001
@@ -107,8 +107,10 @@ class CreateNoteFragment : Fragment() {
         }
       }
     }
-    binding.imgSelected.isVisible = true
-    binding.imgSelected.setImageBitmap(makeSmallerBitmap(400))
+    if (selectedBitmap != null) {
+      binding.imgSelected.isVisible = true
+      binding.imgSelected.setImageBitmap(makeSmallerBitmap(400))
+    }
   }
 
   private fun makeSmallerBitmap(maxSize: Int): Bitmap {
@@ -131,6 +133,10 @@ class CreateNoteFragment : Fragment() {
   }
 
   private fun btnSaveOnClick() {
+    if (binding.etTitle.text.isEmpty() || binding.etDescription.text.isEmpty()) {
+      Toast.makeText(requireContext(), getString(R.string.empty_value_error), Toast.LENGTH_LONG).show()
+      return
+    }
     var byteArray: ByteArray? = null
     if (selectedBitmap != null) {
       var smalledBitmap = makeSmallerBitmap(300)
@@ -149,11 +155,13 @@ class CreateNoteFragment : Fragment() {
       statement.bindString(2, binding.etDescription.text.toString())
       statement.bindString(3, getDate())
       statement.bindString(4, "")
+      if (byteArray != null)
       statement.bindBlob(5, byteArray)
       statement.execute()
     } catch (e: Exception) {
       e.printStackTrace()
     }
+    navigate(R.id.action_navigation_create_note_to_navigation_notes)
   }
 
   override fun onRequestPermissionsResult(

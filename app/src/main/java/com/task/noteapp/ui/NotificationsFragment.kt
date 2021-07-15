@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.task.noteapp.BaseFragment
 import com.task.noteapp.databinding.FragmentCustomNotesBinding
 
-class NotificationsFragment : Fragment() {
+class NotificationsFragment : BaseFragment() {
   private lateinit var binding: FragmentCustomNotesBinding
 
   override fun onCreateView(

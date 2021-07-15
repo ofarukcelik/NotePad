@@ -15,7 +15,11 @@
         android:id="@+id/navigation_create_note"
         android:name="com.task.noteapp.ui.CreateNoteFragment"
         android:label="@string/create_note"
-        tools:layout="@layout/fragment_create_notes" />
+        tools:layout="@layout/fragment_create_notes" >
+        <action
+            android:id="@+id/action_navigation_create_note_to_navigation_notes"
+            app:destination="@id/navigation_notes" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_custom_notes"

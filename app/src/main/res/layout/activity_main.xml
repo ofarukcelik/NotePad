@@ -30,7 +30,7 @@
             android:layout_above="@id/nav_view"
             android:layout_margin="15dp"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/mobile_navigation" />
+            app:navGraph="@navigation/main_navigation" />
 
     </RelativeLayout>
 
