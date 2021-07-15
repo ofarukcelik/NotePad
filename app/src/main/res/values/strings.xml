@@ -6,4 +6,6 @@
     <string name="custom_notes">Gizli Notlarım</string>
     <string name="select_gallery">Galeriden Seç</string>
     <string name="capture_camera">Kamerayı Aç</string>
+    <string name="note_title">Not Başlığı</string>
+    <string name="note_description">Not Açıklaması</string>
 </resources>

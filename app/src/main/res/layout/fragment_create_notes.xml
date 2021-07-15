@@ -1,77 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CreateNoteFragment"
-    android:orientation="vertical">
+    android:layout_marginHorizontal="5dp"
+    tools:context=".ui.CreateNoteFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+
 
         <LinearLayout
-            android:id="@+id/lnrGallery"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:background="@drawable/bg_light_rounded"
-            android:layout_weight="0.5"
-            android:gravity="center"
-            android:layout_marginHorizontal="5dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_gallery" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/note_title"
+                android:textColor="@color/default_color"
+                android:textSize="18dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_light_rounded"
+                android:hint="@string/note_title"
+                android:padding="15dp"
+                android:textColor="@color/default_color" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/select_gallery" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/note_description"
+                android:textColor="@color/default_color"
+                android:textSize="18dp" />
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/bg_light_rounded"
+                android:hint="@string/note_description"
+                android:padding="15dp"
+                android:textColor="@color/default_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/lnrGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_light_rounded"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_gallery" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/select_gallery" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnrCamera"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/bg_light_rounded"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/capture_camera" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imgRecylerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_rounded"
+                android:backgroundTint="@color/button_color"
+                android:padding="10dp"
+                android:text="Kaydet"
+                android:textColor="@color/white" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/lnrCamera"
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/bg_light_rounded"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="5dp"
-            android:gravity="center">
 
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_camera" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/capture_camera" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/imgRecylerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"/>
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>
