@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_notes">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_notes"
         android:name="com.task.noteapp.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/notes"
+        tools:layout="@layout/fragment_notes" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_create_note"
         android:name="com.task.noteapp.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="@string/create_note"
+        tools:layout="@layout/fragment_create_notes" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_custom_notes"
         android:name="com.task.noteapp.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:label="@string/custom_notes"
+        tools:layout="@layout/fragment_custom_notes" />
 </navigation>
