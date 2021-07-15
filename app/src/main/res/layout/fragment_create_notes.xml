@@ -46,6 +46,7 @@
                 android:layout_marginTop="3dp"
                 android:background="@drawable/bg_light_rounded"
                 android:hint="@string/note_description"
+                android:minHeight="100dp"
                 android:padding="15dp"
                 android:textColor="@color/default_color" />
 
@@ -110,11 +111,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/imgRecylerView"
+            <ImageView
+                android:id="@+id/imgSelected"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp" />
+                android:layout_height="150dp"
+                android:visibility="gone"
+                android:src="@drawable/ic_non_selected"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp" />
 
             <Button
                 android:layout_width="match_parent"

@@ -12,9 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import com.task.noteapp.adapter.SelectedImageAdapter
 import com.task.noteapp.databinding.FragmentCreateNotesBinding
 import java.lang.Exception
 
@@ -23,15 +22,13 @@ class CreateNoteFragment : Fragment() {
   private val PERMISSION_CODE = 1000
   private val IMAGE_CAPTURE_CODE = 1001
   private lateinit var binding: FragmentCreateNotesBinding
-  private lateinit var selectedBitmaps: ArrayList<Bitmap>
-
+  private var selectedBitmap: Bitmap? = null
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
     binding = FragmentCreateNotesBinding.inflate(inflater, container, false)
-    selectedBitmaps = arrayListOf()
     return binding.root
   }
 
@@ -83,11 +80,11 @@ class CreateNoteFragment : Fragment() {
           val uri = data!!.data
           if (uri != null) {
             try {
-              if (Build.VERSION.SDK_INT >= 28) {
+              selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
                 val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
-                selectedBitmaps.add(ImageDecoder.decodeBitmap(source))
+                ImageDecoder.decodeBitmap(source)
               } else {
-                selectedBitmaps.add(MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri))
+                MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri)
               }
             } catch (e: Exception) {
               e.printStackTrace()
@@ -98,13 +95,38 @@ class CreateNoteFragment : Fragment() {
       IMAGE_CAPTURE_CODE -> {
         if (resultCode == Activity.RESULT_OK) {
           val imageData = data?.extras?.get("data") as Bitmap
-          selectedBitmaps.add(imageData)
+          selectedBitmap = imageData
         }
       }
     }
-    binding.imgRecylerView.layoutManager = GridLayoutManager(requireContext(), 3)
-    binding.imgRecylerView.adapter =
-      SelectedImageAdapter(selectedBitmaps, requireContext())
+    binding.imgSelected.isVisible = true
+    binding.imgSelected.setImageBitmap(makeSmallerBitmap(400))
+  }
+
+  private fun makeSmallerBitmap(maxSize: Int): Bitmap {
+    var width = selectedBitmap!!.width
+    var height = selectedBitmap!!.height
+    val bitmapRatio: Double = width.toDouble() / height.toDouble()
+    if (bitmapRatio > 1) {
+      width = maxSize
+      val scaledHight = width / bitmapRatio
+      height = scaledHight.toInt()
+
+    } else {
+      height = maxSize
+      val scaledWidth = height * bitmapRatio
+      width = scaledWidth.toInt()
+    }
+
+
+    return Bitmap.createScaledBitmap(selectedBitmap!!, width, height, true)
+  }
+
+  private fun btnSaveOnClick() {
+    var smalledBitmaps: Bitmap? = null
+    if (selectedBitmap != null) {
+      smalledBitmaps = makeSmallerBitmap(300)
+    }
   }
 
   override fun onRequestPermissionsResult(
