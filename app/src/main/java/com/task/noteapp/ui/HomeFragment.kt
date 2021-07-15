@@ -16,7 +16,6 @@ class HomeFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     binding = FragmentNotesBinding.inflate(inflater, container, false)
-    binding.textHome.text = "Home"
     return binding.root
   }
 }

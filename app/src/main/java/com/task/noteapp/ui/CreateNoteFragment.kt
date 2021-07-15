@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,15 +16,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.task.noteapp.adapter.SelectedImageAdapter
 import com.task.noteapp.databinding.FragmentCreateNotesBinding
-import com.task.noteapp.model.ImageType
-import com.task.noteapp.model.SelectedImage
+import java.lang.Exception
 
 class CreateNoteFragment : Fragment() {
   private val PICK_IMAGES_CODE = 0
   private val PERMISSION_CODE = 1000
   private val IMAGE_CAPTURE_CODE = 1001
-  private lateinit var images: ArrayList<SelectedImage>
   private lateinit var binding: FragmentCreateNotesBinding
+  private lateinit var selectedBitmaps: ArrayList<Bitmap>
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -31,7 +31,7 @@ class CreateNoteFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     binding = FragmentCreateNotesBinding.inflate(inflater, container, false)
-    images = arrayListOf()
+    selectedBitmaps = arrayListOf()
     return binding.root
   }
 
@@ -46,7 +46,7 @@ class CreateNoteFragment : Fragment() {
   private fun intentGallery() {
     val intent = Intent()
     intent.type = "image/*"
-    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+    intent.putExtra(Intent.ACTION_PICK, true)
     intent.action = Intent.ACTION_GET_CONTENT
     startActivityForResult(Intent.createChooser(intent, "Select Images"), PICK_IMAGES_CODE)
   }
@@ -80,27 +80,31 @@ class CreateNoteFragment : Fragment() {
     when (requestCode) {
       PICK_IMAGES_CODE -> {
         if (resultCode == Activity.RESULT_OK) {
-          if (data!!.clipData != null) {
-            val count = data.clipData!!.itemCount
-            for (i in 0 until count) {
-              val imageUri = data.clipData!!.getItemAt(i).uri
-              images?.add(SelectedImage(ImageType.URI, imageUri))
+          val uri = data!!.data
+          if (uri != null) {
+            try {
+              if (Build.VERSION.SDK_INT >= 28) {
+                val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
+                selectedBitmaps.add(ImageDecoder.decodeBitmap(source))
+              } else {
+                selectedBitmaps.add(MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, uri))
+              }
+            } catch (e: Exception) {
+              e.printStackTrace()
             }
-          } else {
-            data.data?.let { SelectedImage(ImageType.URI, it) }?.let { images.add(it) }
           }
         }
       }
       IMAGE_CAPTURE_CODE -> {
         if (resultCode == Activity.RESULT_OK) {
-          val imageUri = data?.extras?.get("data") as Bitmap
-          images.add(SelectedImage(ImageType.BITMAP, imageUri))
+          val imageData = data?.extras?.get("data") as Bitmap
+          selectedBitmaps.add(imageData)
         }
       }
     }
     binding.imgRecylerView.layoutManager = GridLayoutManager(requireContext(), 3)
     binding.imgRecylerView.adapter =
-      SelectedImageAdapter(images, requireContext())
+      SelectedImageAdapter(selectedBitmaps, requireContext())
   }
 
   override fun onRequestPermissionsResult(
