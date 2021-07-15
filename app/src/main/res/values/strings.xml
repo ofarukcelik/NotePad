@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">NoteApp</string>
-    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="notes">Notlarım</string>
     <string name="create_note">Not Oluştur</string>
     <string name="custom_notes">Gizli Notlarım</string>
+    <string name="select_gallery">Galeriden Seç</string>
+    <string name="capture_camera">Kamerayı Aç</string>
 </resources>

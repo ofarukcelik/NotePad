@@ -1,23 +1,22 @@
-package com.task.noteapp
+package com.task.noteapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.task.noteapp.databinding.FragmentCreateNotesBinding
+import com.task.noteapp.databinding.FragmentNotesBinding
 
-class DashboardFragment : Fragment() {
-
-  private lateinit var binding: FragmentCreateNotesBinding
+class HomeFragment : Fragment() {
+  private lateinit var binding: FragmentNotesBinding
 
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View? {
-    binding = FragmentCreateNotesBinding.inflate(inflater, container, false)
-    binding.textDashboard.text = "Dashboard"
+    binding = FragmentNotesBinding.inflate(inflater, container, false)
+    binding.textHome.text = "Home"
     return binding.root
   }
 }

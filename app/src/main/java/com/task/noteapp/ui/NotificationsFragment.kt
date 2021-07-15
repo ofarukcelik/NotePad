@@ -1,4 +1,4 @@
-package com.task.noteapp
+package com.task.noteapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_notes"
-        android:name="com.task.noteapp.HomeFragment"
+        android:name="com.task.noteapp.ui.HomeFragment"
         android:label="@string/notes"
         tools:layout="@layout/fragment_notes" />
 
     <fragment
         android:id="@+id/navigation_create_note"
-        android:name="com.task.noteapp.DashboardFragment"
+        android:name="com.task.noteapp.ui.CreateNoteFragment"
         android:label="@string/create_note"
         tools:layout="@layout/fragment_create_notes" />
 
     <fragment
         android:id="@+id/navigation_custom_notes"
-        android:name="com.task.noteapp.NotificationsFragment"
+        android:name="com.task.noteapp.ui.NotificationsFragment"
         android:label="@string/custom_notes"
         tools:layout="@layout/fragment_custom_notes" />
 </navigation>
