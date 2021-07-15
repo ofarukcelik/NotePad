@@ -23,6 +23,7 @@
                 android:textSize="18dp" />
 
             <EditText
+                android:id="@+id/etTitle"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="3dp"
@@ -41,6 +42,7 @@
                 android:textSize="18dp" />
 
             <EditText
+                android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
@@ -121,6 +123,7 @@
                 android:layout_marginTop="15dp" />
 
             <Button
+                android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

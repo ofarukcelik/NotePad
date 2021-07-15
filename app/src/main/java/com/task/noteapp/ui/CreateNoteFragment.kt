@@ -1,6 +1,7 @@
 package com.task.noteapp.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,7 +16,11 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.task.noteapp.databinding.FragmentCreateNotesBinding
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 class CreateNoteFragment : Fragment() {
   private val PICK_IMAGES_CODE = 0
@@ -35,9 +40,8 @@ class CreateNoteFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     binding.lnrGallery.setOnClickListener { intentGallery() }
-    binding.lnrCamera.setOnClickListener {
-      captureImage()
-    }
+    binding.lnrCamera.setOnClickListener { captureImage() }
+    binding.btnSave.setOnClickListener { btnSaveOnClick() }
   }
 
   private fun intentGallery() {
@@ -46,6 +50,10 @@ class CreateNoteFragment : Fragment() {
     intent.putExtra(Intent.ACTION_PICK, true)
     intent.action = Intent.ACTION_GET_CONTENT
     startActivityForResult(Intent.createChooser(intent, "Select Images"), PICK_IMAGES_CODE)
+  }
+
+  private fun getDate(): String {
+    return SimpleDateFormat("dd.MM.yyyy").format(Date())
   }
 
   private fun captureImage() {
@@ -123,9 +131,28 @@ class CreateNoteFragment : Fragment() {
   }
 
   private fun btnSaveOnClick() {
-    var smalledBitmaps: Bitmap? = null
+    var byteArray: ByteArray? = null
     if (selectedBitmap != null) {
-      smalledBitmaps = makeSmallerBitmap(300)
+      var smalledBitmap = makeSmallerBitmap(300)
+
+      val outputStream = ByteArrayOutputStream()
+      smalledBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
+      byteArray = outputStream.toByteArray()
+    }
+    try {
+      val database = requireActivity().openOrCreateDatabase("Notes", Context.MODE_PRIVATE, null)
+      database.execSQL("CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY, title VARCHAR, description VARCHAR, createdDate VARCHAR, updatedDate VARCHAR, image BLOB)")
+      val sqlString =
+        "INSERT INTO notes (title, description, createdDate, updatedDate, image) VALUES (?,?,?,?,?)"
+      val statement = database.compileStatement(sqlString)
+      statement.bindString(1, binding.etTitle.text.toString())
+      statement.bindString(2, binding.etDescription.text.toString())
+      statement.bindString(3, getDate())
+      statement.bindString(4, "")
+      statement.bindBlob(5, byteArray)
+      statement.execute()
+    } catch (e: Exception) {
+      e.printStackTrace()
     }
   }
 
