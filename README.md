@@ -1,16 +1,5 @@
 # NoteApp
 
-
-![WhatsApp Image 2021-07-16 at 05 56 50](https://user-images.githubusercontent.com/34068784/125884844-655120e8-3155-4318-8096-4cfda66c4a18.jpeg)
-![WhatsApp Image 2021-07-16 at 05 56 50 (1)](https://user-images.githubusercontent.com/34068784/125884853-b730645f-0ccb-47ef-8076-3d703dd8dcd1.jpeg)
-![WhatsApp Image 2021-07-16 at 05 56 50 (2)](https://user-images.githubusercontent.com/34068784/125884860-3c9cb586-84c7-4b4a-b49a-6bb51d07a8be.jpeg)
-![WhatsApp Image 2021-07-16 at 05 56 50 (3)](https://user-images.githubusercontent.com/34068784/125884868-6a1604de-f1f5-42cf-8c40-7ba4584f6ded.jpeg)
-
-
-
-
-
-
 ### Deadline
 
 We'll be waiting for your solution within 4 days.
