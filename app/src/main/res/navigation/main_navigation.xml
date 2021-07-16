@@ -22,8 +22,18 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_custom_notes"
-        android:name="com.task.noteapp.ui.NotificationsFragment"
+        android:id="@+id/navigation_secret_notes"
+        android:name="com.task.noteapp.ui.SecretNotesFragment"
         android:label="@string/custom_notes"
-        tools:layout="@layout/fragment_custom_notes" />
+        tools:layout="@layout/fragment_secret_notes" />
+
+    <fragment
+        android:id="@+id/navigation_custom_notes"
+        android:name="com.task.noteapp.ui.LoginFragment"
+        android:label="Login Fragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_navigation_custom_notes_to_navigation_secret_notes"
+            app:destination="@id/navigation_secret_notes" />
+    </fragment>
 </navigation>

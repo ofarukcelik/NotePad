@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="30dp">
+
+   <LinearLayout
+       android:id="@+id/lnrEnterPass"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:visibility="gone"
+       android:layout_centerInParent="true"
+       android:orientation="vertical">
+
+       <EditText
+           android:id="@+id/etCheckPass"
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:background="@drawable/bg_light_rounded"
+           android:textColor="@color/default_color"
+           android:padding="15dp"
+           android:inputType="textPassword"
+           android:hint="@string/enter_pass"/>
+
+       <Button
+           android:id="@+id/btnOk"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="@string/ok"
+           android:background="@drawable/bg_rounded"
+           android:backgroundTint="@color/button_color"
+           android:textColor="@color/white"
+           android:layout_marginTop="20dp"/>
+   </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrCreatePass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/etCreatedPass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_light_rounded"
+            android:textColor="@color/default_color"
+            android:padding="15dp"
+            android:inputType="textPassword"
+            android:hint="@string/create_pass"/>
+
+        <Button
+            android:id="@+id/btnCreatePass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_and_next"
+            android:background="@drawable/bg_rounded"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

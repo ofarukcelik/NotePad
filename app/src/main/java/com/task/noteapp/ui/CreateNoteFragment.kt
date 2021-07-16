@@ -134,7 +134,8 @@ class CreateNoteFragment : BaseFragment() {
 
   private fun btnSaveOnClick() {
     if (binding.etTitle.text.isEmpty() || binding.etDescription.text.isEmpty()) {
-      Toast.makeText(requireContext(), getString(R.string.empty_value_error), Toast.LENGTH_LONG).show()
+      Toast.makeText(requireContext(), getString(R.string.empty_value_error), Toast.LENGTH_LONG)
+        .show()
       return
     }
     var byteArray: ByteArray? = null
@@ -147,16 +148,18 @@ class CreateNoteFragment : BaseFragment() {
     }
     try {
       val database = requireActivity().openOrCreateDatabase("Notes", Context.MODE_PRIVATE, null)
-      database.execSQL("CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY, title VARCHAR, description VARCHAR, createdDate VARCHAR, updatedDate VARCHAR, image BLOB)")
+      database.execSQL("CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY, title VARCHAR, description VARCHAR, createdDate VARCHAR, updatedDate VARCHAR, image BLOB, secret INTEGER)")
       val sqlString =
-        "INSERT INTO notes (title, description, createdDate, updatedDate, image) VALUES (?,?,?,?,?)"
+        "INSERT INTO notes (title, description, createdDate, updatedDate, image, secret) VALUES (?,?,?,?,?,?)"
       val statement = database.compileStatement(sqlString)
       statement.bindString(1, binding.etTitle.text.toString())
       statement.bindString(2, binding.etDescription.text.toString())
       statement.bindString(3, getDate())
       statement.bindString(4, "")
       if (byteArray != null)
-      statement.bindBlob(5, byteArray)
+        statement.bindBlob(5, byteArray)
+      statement.bindLong(6, 0)
+
       statement.execute()
     } catch (e: Exception) {
       e.printStackTrace()
