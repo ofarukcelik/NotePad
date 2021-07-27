@@ -1,11 +1,13 @@
-package com.task.noteapp
+package com.task.noteapp.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.task.noteapp.R
 import com.task.noteapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
   private lateinit var binding: ActivityMainBinding

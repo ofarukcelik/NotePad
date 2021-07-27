@@ -1,4 +1,4 @@
-package com.task.noteapp
+package com.task.noteapp.ui
 
 import android.content.Context
 import android.graphics.Rect

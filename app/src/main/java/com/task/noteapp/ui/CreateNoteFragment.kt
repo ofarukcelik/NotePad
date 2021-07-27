@@ -1,7 +1,6 @@
 package com.task.noteapp.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,15 +13,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.task.noteapp.BaseFragment
+import androidx.lifecycle.ViewModelProvider
+import com.task.noteapp.viewmodel.NoteViewModel
 import com.task.noteapp.R
 import com.task.noteapp.databinding.FragmentCreateNotesBinding
+import com.task.noteapp.entity.NoteEntity
 import java.io.ByteArrayOutputStream
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateNoteFragment : BaseFragment() {
+  private lateinit var viewModel: NoteViewModel
   private val PICK_IMAGES_CODE = 0
   private val PERMISSION_CODE = 1000
   private val IMAGE_CAPTURE_CODE = 1001
@@ -39,6 +41,7 @@ class CreateNoteFragment : BaseFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    viewModel = ViewModelProvider(requireActivity()).get(NoteViewModel::class.java)
     binding.lnrGallery.setOnClickListener { intentGallery() }
     binding.lnrCamera.setOnClickListener { captureImage() }
     binding.btnSave.setOnClickListener { btnSaveOnClick() }
@@ -147,20 +150,8 @@ class CreateNoteFragment : BaseFragment() {
       byteArray = outputStream.toByteArray()
     }
     try {
-      val database = requireActivity().openOrCreateDatabase("Notes", Context.MODE_PRIVATE, null)
-      database.execSQL("CREATE TABLE IF NOT EXISTS notes(id INTEGER PRIMARY KEY, title VARCHAR, description VARCHAR, createdDate VARCHAR, updatedDate VARCHAR, image BLOB, secret INTEGER)")
-      val sqlString =
-        "INSERT INTO notes (title, description, createdDate, updatedDate, image, secret) VALUES (?,?,?,?,?,?)"
-      val statement = database.compileStatement(sqlString)
-      statement.bindString(1, binding.etTitle.text.toString())
-      statement.bindString(2, binding.etDescription.text.toString())
-      statement.bindString(3, getDate())
-      statement.bindString(4, "")
-      if (byteArray != null)
-        statement.bindBlob(5, byteArray)
-      statement.bindLong(6, 0)
-
-      statement.execute()
+      val noteEntity = NoteEntity(title = binding.etTitle.text.toString(), description = binding.etDescription.text.toString(), createdDate = getDate(), updatedDate = "", image = byteArray, secret = 0)
+      viewModel.insertNote(noteEntity)
     } catch (e: Exception) {
       e.printStackTrace()
     }

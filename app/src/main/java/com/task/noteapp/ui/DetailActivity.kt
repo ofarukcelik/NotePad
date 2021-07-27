@@ -1,21 +1,27 @@
-package com.task.noteapp
+package com.task.noteapp.ui
 
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.task.noteapp.databinding.ActivityDetailBinding
+import com.task.noteapp.entity.NoteEntity
+import com.task.noteapp.viewmodel.NoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class DetailActivity : BaseActivity() {
   private lateinit var binding: ActivityDetailBinding
-  private lateinit var db: SQLiteDatabase
+  lateinit var note: NoteEntity
+  lateinit var viewModel: NoteViewModel
   private var selectedID: Int = 0
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     binding = ActivityDetailBinding.inflate(layoutInflater)
     setContentView(binding.root)
+    viewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
     supportActionBar?.setDisplayHomeAsUpEnabled(true)
     selectedID = intent.getIntExtra("selectedNoteID", 1)
     getDetail(selectedID)
@@ -32,28 +38,23 @@ class DetailActivity : BaseActivity() {
   }
 
   private fun getDetail(selectedID: Int) {
-    db = openOrCreateDatabase("Notes", MODE_PRIVATE, null)
-    val cursor = db.rawQuery("SELECT * FROM notes WHERE id = ?", arrayOf(selectedID.toString()))
-    while (cursor.moveToNext()) {
-      binding.etTitle.setText(cursor.getString(cursor.getColumnIndex("title")))
-      binding.etDescription.setText(cursor.getString(cursor.getColumnIndex("description")))
-      val byteArray = cursor.getBlob(cursor.getColumnIndex("image"))
+    viewModel.getNoteByIdObserver(selectedID).observe(this, { t ->
+      note = t
+      binding.etTitle.setText(t.title)
+      binding.etDescription.setText(t.description)
+      val byteArray = t.image
       if (byteArray != null) {
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         binding.imgSelected.setImageBitmap(bitmap)
       }
-    }
-    cursor.close()
+    })
   }
 
   private fun update() {
-    val sqlString = "UPDATE notes SET title = ?, description = ?, updatedDate = ? WHERE id= ? "
-    val statement = db.compileStatement(sqlString)
-    statement.bindString(1, binding.etTitle.text.toString())
-    statement.bindString(2, binding.etDescription.text.toString())
-    statement.bindString(3, getDate())
-    statement.bindString(4, selectedID.toString())
-    statement.execute()
+    note.title = binding.etTitle.text.toString()
+    note.description = binding.etDescription.text.toString()
+    note.updatedDate = getDate()
+    viewModel.update(note)
     intentMainActivity()
   }
 

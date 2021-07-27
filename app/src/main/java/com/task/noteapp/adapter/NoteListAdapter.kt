@@ -7,18 +7,18 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.task.noteapp.DetailActivity
+import com.task.noteapp.ui.DetailActivity
 import com.task.noteapp.R
-import com.task.noteapp.event.AddSecretNoteEvent
-import com.task.noteapp.event.NoteDeleteEvents
-import com.task.noteapp.event.RemoveSecretNotesEvents
-import com.task.noteapp.model.ListAdapterType
-import com.task.noteapp.model.Notes
+import com.task.noteapp.entity.NoteEntity
+import com.task.noteapp.event.DeleteNoteEvent
+import com.task.noteapp.event.MoveToPublicNotesEvent
+import com.task.noteapp.event.MoveToSecretNotesEvent
+import com.task.noteapp.util.ListAdapterType
 import org.greenrobot.eventbus.EventBus
 
 
 class NoteListAdapter(
-  var notes: ArrayList<Notes>,
+  var notes: List<NoteEntity>,
   var context: Context,
   var type: ListAdapterType
 ) :
@@ -36,7 +36,7 @@ class NoteListAdapter(
       view.setOnCreateContextMenuListener(this)
     }
 
-    fun bindItem(note: Notes, listAdapterType: ListAdapterType) {
+    fun bindItem(note: NoteEntity, listAdapterType: ListAdapterType) {
       txtTitle.text = note.title
       txtDate.text = note.createdDate
       id = note.id
@@ -65,15 +65,15 @@ class NoteListAdapter(
         override fun onMenuItemClick(item: MenuItem): Boolean {
           when (item.itemId) {
             1 -> {
-              EventBus.getDefault().post(NoteDeleteEvents(id))
+              EventBus.getDefault().post(DeleteNoteEvent(id))
               return true
             }
             2 -> {
-              EventBus.getDefault().post(AddSecretNoteEvent(id))
+              EventBus.getDefault().post(MoveToSecretNotesEvent(id))
               return true
             }
             3 -> {
-              EventBus.getDefault().post(RemoveSecretNotesEvents(id))
+              EventBus.getDefault().post(MoveToPublicNotesEvent(id))
               return true
             }
           }

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.task.noteapp.BaseFragment
 import com.task.noteapp.R
 import com.task.noteapp.databinding.FragmentLoginBinding
 
